@@ -26,6 +26,18 @@ void move_left(int board[4][4]);
 // Assess a single row of tiles while moving left.
 void assess_row_left(int row[4], int index);
 
+// Move right and merge tiles accordingly.
+void move_right(int board[4][4]);
+
+// Assess a single row of tiles while moving right.
+void assess_row_right(int row[4], int index);
+
+// Move up and merge tiles accordingly.
+void move_up(int board[4][4]);
+
+// Assess a single column of tiles while moving up.
+void assess_column_up(int col[4], int index);
+
 int main() {
     int board[4][4];
 
@@ -46,6 +58,12 @@ int main() {
                 break;
             case 0:
                 move_left(board);
+                break;
+            case 1:
+                move_up(board);
+                break;
+            case 2:
+                move_right(board);
                 break;
             default:
                 cout << "Invalid input. Try again." << endl;
@@ -105,4 +123,35 @@ void assess_row_left(int row[4], int index) {
             row[i+1] = 0;
         }
     }
-} 
+}
+
+void move_right(int board[4][4]) {
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (board[i][j] != 0) {
+                assess_row_right(board[i], j);
+            }
+        }
+    }
+}
+
+void assess_row_right(int row[4], int index) {
+    for (int i = index+1; i < 4; i++) {
+        if (row[i] == 0) {
+            swap(row[i], row[i-1]);
+        } else {
+            row[i] += row[i-1];
+            row[i-1] = 0;
+        }
+    }
+}
+
+void move_up(int board[4][4]) {
+    for (int i = 3; i >= 0; i--) {
+        for (int j = 0; j < 4; j++) {
+            if (board[i][j] != 0) {
+                assess_row_left(board[j], i);
+            }
+        }
+    }
+}
