@@ -1,4 +1,6 @@
 /*
+IN PROGRESS
+
 Author: Brandan Quinn
 Problem: Develop 2048 game
 URL: https://open.kattis.com/problems/2048
