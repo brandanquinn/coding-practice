@@ -8,6 +8,7 @@
 
 using namespace std;
 
+
 // Each hour represents a 360/12 slice (30 degree angles)
 // Example: 12:30 (12, 6) = 180 degrees
 int get_clock_angle(int hour_num, int minute_num) {
@@ -18,6 +19,41 @@ int get_clock_angle(int hour_num, int minute_num) {
     }
 
     return 0;
+}
+
+// If minutes % 10 == 0 || minutes % 5 == 0 -> return as is
+// Else if minutes % 10 > 5; add 10-minutes % 10 to minutes
+// Else subtract minutes%10 from minutes
+string convert_minutes(int minutes_as_int) {
+    int old_minutes = minutes_as_int;
+
+    if (minutes_as_int % 10 == 0 || minutes_as_int % 5 == 0) {
+        // No changes to minutes
+    } else if (minutes_as_int % 10 > 5) {
+        minutes_as_int += 10 - (minutes_as_int % 10);
+    } else {
+        minutes_as_int -= minutes_as_int % 10;
+    }
+
+    return to_string(minutes_as_int);
+}
+
+unordered_map<string, int> get_map() {
+    // Map to convert number of minutes to its corresponding hour number on the clock face.
+    return {
+        {"00", 12},
+        {"05", 1},
+        {"10", 2},
+        {"15", 3},
+        {"20", 4},
+        {"25", 5},
+        {"30", 6},
+        {"35", 7},
+        {"40", 8},
+        {"45", 9},
+        {"50", 10},
+        {"55", 11}
+    };
 }
 
 
@@ -34,6 +70,8 @@ int main() {
     string hour;
     string minutes;
 
+    unordered_map<string, int> minutes_map = get_map();
+
     // Split the time string into separate strings for parsing
     for (int i = 0; i < time_str.size(); i++) {
         if (i < 2) {
@@ -45,24 +83,10 @@ int main() {
 
     // Parse hour to int
     int hour_num = stoi(hour);
+    int minutes_as_int = stoi(minutes);
 
-    // Map to convert number of minutes to its corresponding hour number on the clock face.
-    unordered_map<string, int> minute_to_clock_num = {
-        {"00", 12},
-        {"05", 1},
-        {"10", 2},
-        {"15", 3},
-        {"20", 4},
-        {"25", 5},
-        {"30", 6},
-        {"35", 7},
-        {"40", 8},
-        {"45", 9},
-        {"50", 10},
-        {"55", 11}
-    };
-
-    int angle = get_clock_angle(hour_num, minute_to_clock_num[minutes]);
+    // Convert minutes to one of the options.
+    int angle = get_clock_angle(hour_num, minutes_map[convert_minutes(minutes_as_int)]);
 
     cout << "Angle from given time string: " << angle << " degrees." << endl;
 }
