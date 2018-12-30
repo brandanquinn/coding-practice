@@ -40,11 +40,9 @@ int find_peak(int arr[SIZE], int pivot_idx) {
 }
 
 int main() {
-    int arr[SIZE] = {1, 5, 4, 2, 2, 1};
+    int arr[SIZE] = {1, 4, 4, 2, 2, 1};
 
     int peak_element = find_peak(arr, pivot(SIZE));
-
-    cout << "index of peak: " << peak_element << endl;
 
     if (peak_element == -1) {
         cout << "No peak found in arr." << endl;
